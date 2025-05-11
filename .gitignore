@@ -80,7 +80,3 @@ build/
 # VSCode & JetBrains
 .vscode/
 .idea/
-
-# Metro & Babel
-babel.config.js
-metro.config.js
