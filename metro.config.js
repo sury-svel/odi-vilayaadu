@@ -2,44 +2,45 @@
 const path = require('path');
 const { getDefaultConfig } = require('@expo/metro-config');
 
-module.exports = (() => {
-  // Grab the router-aware defaults
-  const config = getDefaultConfig(__dirname);
+/**
+ * Metro configuration for Expo (React Native)
+ * - Polyfills Node.js core modules for @supabase/realtime-js
+ * - Shims all 'ws' imports (including server-side subpaths) to use global WebSocket
+ */
+const config = getDefaultConfig(__dirname);
 
-  // ======================
-  // 1) Your node-core shims
-  // ======================
-  config.resolver.extraNodeModules = {
-    ...config.resolver.extraNodeModules,
-    stream:      require.resolve('stream-browserify'),
-    events:      require.resolve('events'),
-    http:        require.resolve('stream-http'),
-    https:       require.resolve('https-browserify'),
-    crypto:      require.resolve('crypto-browserify'),
-    net:         require.resolve('net-browserify'),
-    url:         require.resolve('url/'),
-    tls:         require.resolve('tls-browserify'),
-    zlib:        require.resolve('browserify-zlib'),
-    assert:      require.resolve('assert/'),
-    fs:          require.resolve('browserify-fs'),
-    path:        require.resolve('path-browserify'),
-  };
+// 1) Respect the 'browser' entry to avoid server-only code
+config.resolver.mainFields = ['react-native', 'browser', 'main'];
 
-  // ======================
-  // 2) Force all @react-navigation/* imports
-  //    to resolve to the single top-level copy
-  // ======================
-  config.resolver.resolveRequest = (context, moduleName, platform) => {
-    if (moduleName.startsWith('@react-navigation/')) {
-      return {
-        // require.resolve finds e.g. index.native.js or index.js
-        filePath: require.resolve(moduleName),
-        type: 'sourceFile',
-      };
-    }
-    // fall back to Metro’s built-in resolver
-    return context.resolveRequest(context, moduleName, platform);
-  };
+// 2) Polyfill essential Node.js core modules
+config.resolver.extraNodeModules = {
+  ...config.resolver.extraNodeModules,
+  buffer: require.resolve('buffer/'),
+  crypto: require.resolve('crypto-browserify'),
+  events: require.resolve('events'),
+  path: require.resolve('path-browserify'),
+  process: require.resolve('process/browser'),
+  stream: require.resolve('stream-browserify'),
+  url: require.resolve('url/'),
+  util: require.resolve('util/'),
+};
 
-  return config;
-})();
+// 3) Shim all 'ws' module imports to a simple WebSocket stub
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (
+    moduleName === 'ws' ||
+    moduleName.startsWith('ws/') ||
+    moduleName.endsWith('websocket-server.js')
+  ) {
+    return {
+      filePath: path.resolve(__dirname, 'shim/ws.js'),
+      type: 'sourceFile',
+    };
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
+
+// 4) Watch the shim folder
+config.watchFolders = [path.resolve(__dirname, 'shim')];
+
+module.exports = config;

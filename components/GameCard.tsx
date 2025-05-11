@@ -26,7 +26,6 @@ export const GameCard: React.FC<GameCardProps> = ({ game, compact, onPress }) =>
   const lang = getUiLanguage(i18n);
 
   const handlePress = () => {
-    console.log("Inside GameCard......");
     if (onPress) {
       onPress();
     } else {

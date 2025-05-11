@@ -77,7 +77,7 @@ export const useChildrenStore = create<ChildrenState>()(
             .eq("parent_id", parentId);
 
           if (childErr) {
-            console.log("Error when fetching children..");
+            // console.log("Error when fetching children..");
             throw childErr;
           }
 
@@ -179,7 +179,6 @@ export const useChildrenStore = create<ChildrenState>()(
           }
       
           const insertPayload = mapChildToDB(childData);
-          console.log("🔍 Insert payload to Supabase:", insertPayload);
       
           const { data: childRow, error: insertError } = await supabase
             .from("children")

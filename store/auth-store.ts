@@ -127,8 +127,6 @@ export const useAuthStore = create<AuthState>()(
             .from("user_profiles")
             .select("id", { head: true, count: "exact" })
             .eq("email", email);
-
-          console.log("Checking for existing email ", email);
           
           if (error) {
             console.error("Error checking existing user:", error.message);
@@ -348,7 +346,7 @@ export const useAuthStore = create<AuthState>()(
           } = await supabase.auth.getSession();
       
           if (sessionError || !session?.user) {
-            console.log("No authenticated Supabase session found");
+            // console.log("No authenticated Supabase session found");
             return;
           }
       

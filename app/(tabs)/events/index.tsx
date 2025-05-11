@@ -32,7 +32,7 @@ export default function EventsScreen() {
 
   /* ---- run once on mount ---- */
   useEffect(() => {
-    console.log("Mounting Events list ......");
+    // console.log("Mounting Events list ......");
     if (Object.keys(eventsDict).length === 0) fetchEvents();
   }, []);
 
@@ -52,7 +52,7 @@ export default function EventsScreen() {
 
   /* ---- navigation ---- */
   const handleEventPress = (eventId: string) => {
-     console.log("Pushing from event list .............. " + eventId);
+    //  console.log("Pushing from event list .............. " + eventId);
      router.push(`/events/${eventId}`);
     // console.log("Pushing.............. " + eventId);
     // router.push({

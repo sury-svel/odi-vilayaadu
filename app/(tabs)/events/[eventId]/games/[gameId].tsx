@@ -48,7 +48,6 @@ export default function GameDetailsScreen() {
 
   //TODO need to check about this ActivityIndicator
   if (!currentGame) {
-    console.log("Game not in store yet, fetching…");
     return (
       <SafeAreaView style={styles.container}>
         <ActivityIndicator style={{ marginTop: 50 }} />

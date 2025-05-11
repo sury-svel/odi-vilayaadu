@@ -246,7 +246,7 @@ export default function EventDetailsScreen() {
                 key={game.id}
                 game={game} compact
                 onPress={() => {
-                  console.log("GameCard pressed:", eventId, game.id);
+                  // console.log("GameCard pressed:", eventId, game.id);
                   router.push(`/events/${eventId}/games/${game.id}`);
                 }}
               />

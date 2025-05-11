@@ -9,8 +9,8 @@ import mustache from 'https://cdn.skypack.dev/mustache@4.2.0';
 
 
 // Initialize a Supabase client with the built-in service role key
-console.log("SUPABASE_URL:", Deno.env.get("SUPABASE_URL"));
-console.log("SERVICE_ROLE_KEY exists:", !!Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
+// console.log("SUPABASE_URL:", Deno.env.get("SUPABASE_URL"));
+// console.log("SERVICE_ROLE_KEY exists:", !!Deno.env.get("SUPABASE_SERVICE_ROLE_KEY"));
 
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,

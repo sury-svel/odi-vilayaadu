@@ -20,7 +20,6 @@ export default function AuthCallback() {
         }
   
         if (data?.session) {
-          console.log('Successfully signed in!');
           setStatus('success');
   
           // Redirect to profile tab
