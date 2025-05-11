@@ -25,13 +25,17 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "org.amchats.odivilayaadu"
+      "package": "org.amchats.odivilayaadu",
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
       "expo-router",
       "expo-font",
       "expo-localization",
-      "expo-notifications"
+      "expo-notifications",
+      ["expo-build-properties", {
+        "android": { "useNextNotificationsApi": true }
+      }]
     ],
     "experiments": {
       "typedRoutes": true
