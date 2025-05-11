@@ -33,7 +33,7 @@ export interface Event {
   associates?: Sponsor[];
   createdAt?: string;
   updatedAt?: string;
-  registeredParticipants?: string[];
+  registeredCount ?: number;
 }
 
 export interface Game {

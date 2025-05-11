@@ -114,7 +114,7 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({
         )}
       </View>
 
-      {childName && <Text style={styles.childName}>{childName}</Text>}
+      {/* {childName && <Text style={styles.childName}>{childName}</Text>} */}
 
       <View style={styles.scoreContainer}>
         {getScoringIcon()}

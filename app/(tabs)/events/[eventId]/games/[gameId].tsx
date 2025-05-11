@@ -25,7 +25,7 @@ import { Clock, MapPin } from "lucide-react-native";
 
 export default function GameDetailsScreen() {
   const { eventId, gameId } = useLocalSearchParams<{ eventId: string; gameId: string }>();
-  console.log("⚡ GameDetailsScreen mount:", { eventId, gameId });
+  // console.log("⚡ GameDetailsScreen mount:", { eventId, gameId });
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { user, language, isAuthenticated } = useAuthStore();
@@ -51,14 +51,6 @@ export default function GameDetailsScreen() {
     console.log("Game not in store yet, fetching…");
     return (
       <SafeAreaView style={styles.container}>
-        {/* <View style={styles.notFoundContainer}>
-          <Text style={styles.notFoundText}>{t("games.notFound")}</Text>
-          <Button
-            title={t("common.goBack")}
-            onPress={() => router.back()}
-            variant="outline"
-          />
-        </View> */}
         <ActivityIndicator style={{ marginTop: 50 }} />
       </SafeAreaView>
     );
@@ -90,85 +82,84 @@ export default function GameDetailsScreen() {
       />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Image source={{ uri: currentGame.imageUrl }} style={styles.image} />
-        <View style={styles.infoSection}>
-          <View style={styles.infoRow}>
-            <Clock size={20} color={colors.text.tertiary} />
-            <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>{t("games.scoringType")}</Text>
-              <Text style={styles.infoText}>
-                {tr(currentGame.scoringType, getUiLanguage(i18n))}
-              </Text>
+        <View style={styles.content}>
+          <View style={styles.infoSection}>
+            <View style={styles.infoRow}>
+              <Clock size={20} color={colors.text.tertiary} />
+              <View style={styles.infoContent}>
+                <Text style={styles.infoLabel}>{t("games.scoringType")}</Text>
+                <Text style={styles.infoText}>
+                  {tr(currentGame.scoringType, getUiLanguage(i18n))}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.infoRow}>
+              <MapPin size={16} color={colors.text.secondary} />
+              <View style={styles.infoContent}>
+                <Text style={styles.infoLabel}>{currentGame.mapLocation}</Text>
+              </View>
             </View>
           </View>
 
-          <View style={styles.infoRow}>
-            <MapPin size={16} color={colors.text.secondary} />
-            <View style={styles.infoContent}>
-            <Text style={styles.infoLabel}>{currentGame.mapLocation}</Text>
-            </View>
+          <View style={styles.descriptionSection}>
+            <Text style={styles.sectionTitle}>{t("games.description")}</Text>
+            <Text style={styles.descriptionText}>
+              {tr(currentGame.description, getUiLanguage(i18n))}
+            </Text>
           </View>
+
+          {(currentGame.divisions ?? []).map((div) => (
+            <DivisionAccordion
+              key={
+                div.id ?? `${tr(div.name, lang)}-${div.minAge}-${div.maxAge}`
+              }
+              division={div}
+              game={currentGame}
+              editable={isAssigned}
+              scoringType={currentGame.scoringType!}
+              isVolunteerAssigned={isAssigned}
+              onSave={async (card) => {
+                await saveScore({
+                  gameId: currentGame.id,
+                  divisionId: card.divisionId,
+                  childId: card.childId,
+                  score: card.score!,
+                  position: card.position!,
+                  medal: card.medal!,
+                });
+
+                fetchGameDetails(currentGame.id);
+              }}
+            />
+          ))}
+
+          {isVolunteer && (
+            <Button
+              title={
+                isAssigned
+                  ? t("volunteer.unassignFromGame")
+                  : t("volunteer.assignToGame")
+              }
+              onPress={handleVolunteerToggle}
+              disabled={processing}
+              variant={isAssigned ? "outline" : "primary"}
+              style={styles.volunteerButton}
+            />
+          )}
+
+          <View style={styles.descriptionSection}>
+            <Text style={styles.sectionTitle}>{t("games.rules")}</Text>
+            <Text style={styles.descriptionText}>
+              {tr(currentGame.rules, getUiLanguage(i18n))}
+            </Text>
+          </View>
+
         </View>
-
-        <View style={styles.descriptionSection}>
-          <Text style={styles.sectionTitle}>{t("games.description")}</Text>
-          <Text style={styles.descriptionText}>
-            {tr(currentGame.description, getUiLanguage(i18n))}
-          </Text>
-        </View>
-
-        {(currentGame.divisions ?? []).map((div) => (
-          <DivisionAccordion
-            key={div.id ?? `${tr(div.name, lang)}-${div.minAge}-${div.maxAge}`}
-            division={div}
-            editable={isAssigned}
-            scoringType={currentGame.scoringType!}
-            onSave={async (card) => {
-              await saveScore({
-                gameId: currentGame.id,
-                divisionId: card.divisionId,
-                childId: card.childId,
-                score: card.score!,
-                position: card.position!,
-                medal: card.medal!,
-              });
-
-              fetchGameDetails(currentGame.id);
-            }}
-          />
-        ))}
-
-        {isVolunteer && (
-          <Button
-            title={
-              isAssigned
-                ? t("volunteer.unassignFromGame")
-                : t("volunteer.assignToGame")
-            }
-            onPress={handleVolunteerToggle}
-            disabled={processing}
-            variant={isAssigned ? "outline" : "primary"}
-            style={styles.volunteerButton}
-          />
-        )}
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const textInputStyles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.card,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  input: {
-    fontSize: 16,
-    color: colors.text.primary,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
@@ -300,6 +291,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
   },
   volunteerButton: {
+    marginTop: 24,
     marginBottom: 24,
   },
   adminActions: {

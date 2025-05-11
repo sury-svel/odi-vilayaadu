@@ -1,11 +1,12 @@
-// app/(tabs)/events/_layout.tsx
+// app/(tabs)/info/_layout.tsx
+import React from "react";
 import { Stack } from 'expo-router';
 
 export default function EventsLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         gestureEnabled: true,
       }}
     />

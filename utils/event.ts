@@ -102,6 +102,7 @@ export const mapEvent = (row: any): Event => {
     date: row.date,
     address: row.address,
     fieldMapUrl: row.field_map_url ?? "",
+    registeredCount: row.registered_count ?? 0,
 
     status: deriveEventStatus(row.date),
     imageUrl: row.image_url ?? undefined,

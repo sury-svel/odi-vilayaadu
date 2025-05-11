@@ -30,6 +30,7 @@ export default function AddChildScreen() {
     gender: "male" as "male" | "female" | "other",
     tamilSchool: "",
     tamilGrade: "",
+    medicalInfo: "",
     photoUrl: "",
     division: "arumbu" as Division,
   });
@@ -39,6 +40,7 @@ export default function AddChildScreen() {
     age: "",
     tamilSchool: "",
     tamilGrade: "",
+    medicalInfo: "",
   });
 
   React.useEffect(() => {
@@ -64,6 +66,7 @@ export default function AddChildScreen() {
       age: "",
       tamilSchool: "",
       tamilGrade: "",
+      medicalInfo: "",
     };
     
     if (!formData.name) {
@@ -87,29 +90,35 @@ export default function AddChildScreen() {
       isValid = false;
     }
     
-    if (!formData.tamilGrade) {
-      newErrors.tamilGrade = t("children.fields.tamilGrade") + " " + t("register.error.fullNameRequired").toLowerCase();
+    // if (!formData.tamilGrade) {
+    //   newErrors.tamilGrade = t("children.fields.tamilGrade") + " " + t("register.error.fullNameRequired").toLowerCase();
+    //   isValid = false;
+    // }
+
+    if (!formData.medicalInfo) {
+      newErrors.medicalInfo = t("children.fields.medicalInfo") + " " + t("register.error.medicalInfoRequired").toLowerCase();
       isValid = false;
     }
-    
     setErrors(newErrors);
     return isValid;
   };
   
   const handleAddChild = async () => {
     if (!validateForm()) return;
-    
+    console.info("Adding child...");
     // Determine division based on age
     const age = parseInt(formData.age);
     let division: Division = "arumbu";
     
-    if (age >= 4 && age <= 5) {
+    if (age >= 1 && age <= 3) {
+      division = "mazhalai";
+    } else if (age >= 4 && age <= 6) {
       division = "arumbu";
-    } else if (age >= 6 && age <= 8) {
+    } else if (age >= 7 && age <= 9) {
       division = "mottu";
-    } else if (age >= 9 && age <= 10) {
+    } else if (age >= 10 && age <= 12) {
       division = "mugai";
-    } else if (age >= 11 && age <= 13) {
+    } else if (age >= 13 && age <= 15) {
       division = "malar";
     }
     
@@ -118,6 +127,7 @@ export default function AddChildScreen() {
       age: parseInt(formData.age),
       division,
       parentId: user?.id || "",
+      results: []
     });
     
     if (success) {
@@ -132,20 +142,21 @@ export default function AddChildScreen() {
         ]
       );
     } else {
-      Alert.alert(
-        t("common.error"),
-        t("register.error.message"),
-        [{ text: t("common.ok") }]
-      );
+      console.warn("Adding child error...");
+      // Alert.alert(
+      //   t("common.error"),
+      //   t("register.error.message"),
+      //   [{ text: t("common.ok") }]
+      // );
     }
   };
   
   // Sample profile images for demo
   const sampleImages = [
-    "https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=500",
-    "https://images.unsplash.com/photo-1628191139360-4083564d03fd?q=80&w=500",
-    "https://images.unsplash.com/photo-1618923850107-d1a234d7a73a?q=80&w=500",
-    "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=500",
+    "https://odi-vilayaadu-public-assets.s3.us-east-2.amazonaws.com/avatars/tamilboy1.png",
+    "https://odi-vilayaadu-public-assets.s3.us-east-2.amazonaws.com/avatars/tamilgirl1.png",
+    "https://odi-vilayaadu-public-assets.s3.us-east-2.amazonaws.com/avatars/tamilboy2.png",
+    "https://odi-vilayaadu-public-assets.s3.us-east-2.amazonaws.com/avatars/tamilgirl2.png",
   ];
   
   return (
@@ -153,47 +164,47 @@ export default function AddChildScreen() {
       <Stack.Screen options={{ title: t("children.add") }} />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.title}>
-            {t("children.add")}
-          </Text>
-          <Text style={styles.subtitle}>
-            {t("children.addPrompt")}
-          </Text>
+          <Text style={styles.title}>{t("children.add")}</Text>
+          <Text style={styles.subtitle}>{t("children.addPrompt")}</Text>
         </View>
-        
+
         <View style={styles.form}>
           <View style={styles.photoSection}>
-            <Text style={styles.photoLabel}>
-              {t("children.fields.photo")}
-            </Text>
-            
+            <Text style={styles.photoLabel}>{t("children.fields.photo")}</Text>
+
             <View style={styles.photoPreview}>
               {formData.photoUrl ? (
-                <Image source={{ uri: formData.photoUrl }} style={styles.selectedPhoto} />
+                <Image
+                  source={{ uri: formData.photoUrl }}
+                  style={styles.selectedPhoto}
+                />
               ) : (
                 <View style={styles.photoPlaceholder}>
                   <ImageIcon size={32} color={colors.text.tertiary} />
                 </View>
               )}
             </View>
-            
+
             <View style={styles.samplePhotos}>
               {sampleImages.map((image, index) => (
-                <TouchableOpacity 
+                <TouchableOpacity
                   key={index}
                   style={[
                     styles.samplePhoto,
-                    formData.photoUrl === image && styles.selectedSamplePhoto
+                    formData.photoUrl === image && styles.selectedSamplePhoto,
                   ]}
                   onPress={() => setFormData({ ...formData, photoUrl: image })}
                   activeOpacity={0.7}
                 >
-                  <Image source={{ uri: image }} style={styles.samplePhotoImage} />
+                  <Image
+                    source={{ uri: image }}
+                    style={styles.samplePhotoImage}
+                  />
                 </TouchableOpacity>
               ))}
             </View>
           </View>
-          
+
           <TextInput
             label={t("children.fields.name")}
             value={formData.name}
@@ -202,7 +213,7 @@ export default function AddChildScreen() {
             leftIcon={<User size={20} color={colors.text.tertiary} />}
             error={errors.name}
           />
-          
+
           <TextInput
             label={t("children.fields.age")}
             value={formData.age}
@@ -212,99 +223,118 @@ export default function AddChildScreen() {
             leftIcon={<User size={20} color={colors.text.tertiary} />}
             error={errors.age}
           />
-          
+
           <View style={styles.genderSelector}>
             <Text style={styles.genderLabel}>
               {t("children.fields.gender")}
             </Text>
             <View style={styles.genderButtons}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={[
-                  styles.genderButton, 
-                  formData.gender === "male" && styles.activeGenderButton
+                  styles.genderButton,
+                  formData.gender === "male" && styles.activeGenderButton,
                 ]}
                 onPress={() => setFormData({ ...formData, gender: "male" })}
                 activeOpacity={0.7}
               >
-                <Text style={[
-                  styles.genderButtonText,
-                  formData.gender === "male" && styles.activeGenderButtonText
-                ]}>
+                <Text
+                  style={[
+                    styles.genderButtonText,
+                    formData.gender === "male" && styles.activeGenderButtonText,
+                  ]}
+                >
                   {t("children.genders.male")}
                 </Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={[
-                  styles.genderButton, 
-                  formData.gender === "female" && styles.activeGenderButton
+                  styles.genderButton,
+                  formData.gender === "female" && styles.activeGenderButton,
                 ]}
                 onPress={() => setFormData({ ...formData, gender: "female" })}
                 activeOpacity={0.7}
               >
-                <Text style={[
-                  styles.genderButtonText,
-                  formData.gender === "female" && styles.activeGenderButtonText
-                ]}>
+                <Text
+                  style={[
+                    styles.genderButtonText,
+                    formData.gender === "female" &&
+                      styles.activeGenderButtonText,
+                  ]}
+                >
                   {t("children.genders.female")}
                 </Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              {/* <TouchableOpacity
                 style={[
-                  styles.genderButton, 
-                  formData.gender === "other" && styles.activeGenderButton
+                  styles.genderButton,
+                  formData.gender === "other" && styles.activeGenderButton,
                 ]}
                 onPress={() => setFormData({ ...formData, gender: "other" })}
                 activeOpacity={0.7}
               >
-                <Text style={[
-                  styles.genderButtonText,
-                  formData.gender === "other" && styles.activeGenderButtonText
-                ]}>
+                <Text
+                  style={[
+                    styles.genderButtonText,
+                    formData.gender === "other" &&
+                      styles.activeGenderButtonText,
+                  ]}
+                >
                   {t("children.genders.other")}
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
-          
+
           <TextInput
             label={t("children.fields.tamilSchool")}
             value={formData.tamilSchool}
-            onChangeText={(text) => setFormData({ ...formData, tamilSchool: text })}
+            onChangeText={(text) =>
+              setFormData({ ...formData, tamilSchool: text })
+            }
             placeholder={t("children.fields.tamilSchool")}
             leftIcon={<School size={20} color={colors.text.tertiary} />}
             error={errors.tamilSchool}
           />
-          
-          <TextInput
+
+          {/* <TextInput
             label={t("children.fields.tamilGrade")}
             value={formData.tamilGrade}
-            onChangeText={(text) => setFormData({ ...formData, tamilGrade: text })}
+            onChangeText={(text) =>
+              setFormData({ ...formData, tamilGrade: text })
+            }
             placeholder={t("children.fields.tamilGrade")}
             leftIcon={<School size={20} color={colors.text.tertiary} />}
             error={errors.tamilGrade}
+          /> */}
+
+          <TextInput
+            label={t("children.fields.medicalInfo")}
+            value={formData.medicalInfo}
+            onChangeText={(text) =>
+              setFormData({ ...formData, medicalInfo: text })
+            }
+            placeholder={t("children.fields.medicalInfo")}
+            leftIcon={<School size={20} color={colors.text.tertiary} />}
+            error={errors.medicalInfo}
           />
-          
+
           <View style={styles.divisionInfo}>
             <Text style={styles.divisionTitle}>
               {t("children.divisionInfo")}
             </Text>
             <View style={styles.divisionsList}>
-              {Object.values(divisions).map(division => (
+              {Object.values(divisions).map((division) => (
                 <View key={division.id} style={styles.divisionItem}>
-                  <Text style={styles.divisionName}>
-                    {division.name.en}
-                  </Text>
-                  <Text style={styles.divisionAge}>
-                    {division.ageRange.en}
-                  </Text>
+                  <Text style={styles.divisionName}>{division.name.en}</Text>
+                  <Text style={styles.divisionAge}>{division.ageRange.en}</Text>
                 </View>
               ))}
             </View>
           </View>
-          
-          <Button 
+
+          <Button
             title={t("children.add")}
             onPress={handleAddChild}
             style={styles.addButton}

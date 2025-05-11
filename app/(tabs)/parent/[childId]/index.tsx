@@ -32,7 +32,7 @@ export default function ChildDetailScreen() {
   const [activeTab, setActiveTab] = useState<"games" | "results">("games");
   
   const child = children.find(c => c.id === childId);
-  // console.log('🔍 child object:', child);
+  //console.log('🔍 child object:', child);
 
   if (isLoading) return <ActivityIndicator />;
 
@@ -102,10 +102,23 @@ export default function ChildDetailScreen() {
           <View style={styles.headerContent}>
             <Text style={styles.childName}>{child.name}</Text>
             <View style={styles.medalTally}>
-              {tally.gold > 0 && <Text>🥇 x {tally.gold}</Text>}
-              {tally.silver > 0 && <Text>🥈 x {tally.silver}</Text>}
-              {tally.bronze > 0 && <Text>🥉 x {tally.bronze}</Text>}
+              {Array.from({ length: tally.gold }, (_, i) => (
+                <Text key={`gold-${i}`} style={styles.medalIcon}>
+                  🥇
+                </Text>
+              ))}
+              {Array.from({ length: tally.silver }, (_, i) => (
+                <Text key={`silver-${i}`} style={styles.medalIcon}>
+                  🥈
+                </Text>
+              ))}
+              {Array.from({ length: tally.bronze }, (_, i) => (
+                <Text key={`bronze-${i}`} style={styles.medalIcon}>
+                  🥉
+                </Text>
+              ))}
             </View>
+
             <Text style={styles.childGender}>
               {t(`children.gender.${child.gender}`)} : {child.age}
             </Text>
@@ -128,15 +141,17 @@ export default function ChildDetailScreen() {
             <Text style={styles.infoLabel}>
               {t("children.fields.tamilSchool")}:
             </Text>
-            <Text style={styles.infoValue}>{child.tamilSchool || "N/A"}</Text>
+            <Text style={styles.infoValue}>
+              {child.tamilSchool || "N/A"}
+            </Text>
           </View>
 
-          <View style={styles.infoRow}>
+          {/* <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>
               {t("children.fields.tamilGrade")}:
             </Text>
             <Text style={styles.infoValue}>{child.tamilGrade || "N/A"}</Text>
-          </View>
+          </View> */}
 
           {child.medicalInfo && (
             <View style={styles.infoRow}>
@@ -206,6 +221,7 @@ export default function ChildDetailScreen() {
                 <GameCard
                   key={game.id}
                   game={game}
+                  compact
                   onPress={() => handleGamePress(game)}
                 />
               ))
@@ -380,7 +396,10 @@ const styles = StyleSheet.create({
   },
   medalTally: {
     flexDirection: "row",
-    gap: 8,
     marginTop: 4,
+  },
+  medalIcon: {
+    marginRight: 4, // space between each medal
+    fontSize: 18,   // if you want to tweak the size
   },
 });

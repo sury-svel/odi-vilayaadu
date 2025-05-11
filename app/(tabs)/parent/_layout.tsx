@@ -6,7 +6,7 @@ export default function EventsLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         gestureEnabled: true,
       }}
     />

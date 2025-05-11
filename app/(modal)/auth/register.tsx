@@ -45,6 +45,14 @@ export default function RegisterScreen() {
       return;
     }
     
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      Alert.alert(t("register.error.title"), t("register.error.emailRequired"));
+      return;
+    }
+
+    
     if (!phone) {
       Alert.alert(t("register.error.title"), t("register.error.phoneRequired"));
       return;

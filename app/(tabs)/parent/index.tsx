@@ -7,7 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity
 } from "react-native";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useAuthStore } from "@/store/auth-store";
 import { useChildrenStore } from "@/store/children-store";
 import { colors } from "@/constants/colors";
@@ -65,36 +65,30 @@ export default function ParentScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>
-          {t("children.title")}
-        </Text>
-        <Button 
+        <Text style={styles.title}>{t("children.title")}</Text>
+        <Button
           title={t("children.add")}
           onPress={handleAddChild}
           size="small"
           icon={<UserPlus size={16} color="white" />}
         />
       </View>
-      
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {children.length > 0 ? (
-          children.map(child => (
-            <ChildCard 
-              key={child.id} 
-              child={child} 
+          children.map((child) => (
+            <ChildCard
+              key={child.id}
+              child={child}
               // onEdit={() => handleEditChild(child.id)}
               onPress={() => handleViewChild(child.id)}
             />
           ))
         ) : (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyTitle}>
-              {t("children.noChildren")}
-            </Text>
-            <Text style={styles.emptyText}>
-              {t("children.addPrompt")}
-            </Text>
-            <Button 
+            <Text style={styles.emptyTitle}>{t("children.noChildren")}</Text>
+            <Text style={styles.emptyText}>{t("children.addPrompt")}</Text>
+            <Button
               title={t("children.add")}
               onPress={handleAddChild}
               style={styles.addButton}

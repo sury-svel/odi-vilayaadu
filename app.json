@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "expo-app",
+    "name": "Odi Vilayaadu",
     "slug": "expo-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,22 +14,40 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "org.amchats.odivilayaadu",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "org.amchats.odivilayaadu"
     },
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-localization",
-      "expo-web-browser"
+      "expo-localization"
+      
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fcfb2208-51f8-4004-9232-52ccb4eb262c"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fcfb2208-51f8-4004-9232-52ccb4eb262c"
+    },
+    "owner": "suryans"
   }
 }

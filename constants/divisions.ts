@@ -1,6 +1,19 @@
-export type Division = "arumbu" | "mottu" | "mugai" | "malar" | "semmal";
+export type Division = "arumbu" | "mottu" | "mugai" | "malar" | "mazhalai";
 
 export const divisions = {
+  mazhalai: {
+    id: "mazhalai",
+    name: {
+      en: "Mazhalai",
+      ta: "மழலை",
+    },
+    ageRange: {
+      en: "Ages 1-3",
+      ta: "வயது 1-3",
+    },
+    minAge: 1,
+    maxAge: 3
+  },
   arumbu: {
     id: "arumbu",
     name: {
@@ -8,11 +21,11 @@ export const divisions = {
       ta: "அரும்பு",
     },
     ageRange: {
-      en: "Ages 4-5",
-      ta: "வயது 4-5",
+      en: "Ages 4-6",
+      ta: "வயது 4-6",
     },
     minAge: 4,
-    maxAge: 5
+    maxAge: 6
   },
   mottu: {
     id: "mottu",
@@ -21,11 +34,11 @@ export const divisions = {
       ta: "மொட்டு",
     },
     ageRange: {
-      en: "Ages 6-8",
-      ta: "வயது 6-8",
+      en: "Ages 7-9",
+      ta: "வயது 7-9",
     },
-    minAge: 6,
-    maxAge: 8
+    minAge: 7,
+    maxAge: 9
   },
   mugai: {
     id: "mugai",
@@ -34,11 +47,11 @@ export const divisions = {
       ta: "முகை",
     },
     ageRange: {
-      en: "Ages 9-10",
-      ta: "வயது 9-10",
+      en: "Ages 10-12",
+      ta: "வயது 10-12",
     },
-    minAge: 9,
-    maxAge: 10
+    minAge: 10,
+    maxAge: 12
   },
   malar: {
     id: "malar",
@@ -47,11 +60,11 @@ export const divisions = {
       ta: "மலர்",
     },
     ageRange: {
-      en: "Ages 11-13",
-      ta: "வயது 11-13",
+      en: "Ages 13-15",
+      ta: "வயது 13-15",
     },
-    minAge: 11,
-    maxAge: 13
+    minAge: 13,
+    maxAge: 15
   }
 };
 

@@ -37,13 +37,22 @@
     "name": "Name",
     "years": "Years",
     "email": "Email",
-    "phone": "Phone"
+    "phone": "Phone",
+    "start": "Start",
+    "end" : "End",
+    "publish": "Publish"
+
   },
   "auth": {
     "login": "Login",
     "register": "Register",
     "loginSuccess": "Login successful!",
-    "logoutSuccess": "Logout successful!"
+    "logoutSuccess": "Logout successful!",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordTooShort": "Password must be at least 6 characters long.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "passwordUpdated": "Your password has been updated successfully."
   },
   "login": {
     "title": "Welcome Back",
@@ -247,9 +256,9 @@
       "dateOfBirth": "Date of Birth",
       "photo": "Profile Photo",
       "gender": "Gender",
+      "tamilSchoolGrade": "Tamil School/Grade",
       "tamilSchool": "Tamil School",
       "tamilGrade": "Tamil Grade",
-      "MedicalInfo": "Medical Information",
       "medicalInfo": "Medical Information",
       "notes": "Notes",
       "personalInfo": "Personal Information",
@@ -268,12 +277,12 @@
     "divisionInfo": "Age Divisions"
   },
   "home": {
-    "title": "American Charitable Tamil Society & APS",
+    "title": "American Charitable Tamil Society & Avvaiyar Padasalai",
     "subtitle": "Odi Vilayaadu Kids Event",
     "welcome": "Welcome, {{name}}!",
     "loginPrompt": "Please login or register to access all features",
     "aboutUs": "About Us",
-    "aboutDescription": "American Charitable Tamil Society and APS are proud to present Odi Vilayaadu, a fun-filled event for children to engage in traditional Tamil games and activities. Join us to celebrate our cultural heritage and create lasting memories."
+    "aboutDescription": "American Charitable Tamil Society and Avvaiyar Padasalai are proud to present Odi Vilayaadu, a fun-filled event for children to engage in traditional Tamil games and activities. Join us to celebrate our cultural heritage and create lasting memories."
   },
   "tabs": {
     "home": "Home",
@@ -315,7 +324,13 @@
     "reportingLocation":"Reporting Location",
     "reportingLocationValue":"Reporting Location Value",    
     "responsibilities":"Responsibilities",   
-    "responsibilitiesValue":"Responsibilities Value",       
+    "responsibilitiesValue":"Responsibilities Value",  
+    "startConfirmTitle"  : "Start Game?" ,
+    "startConfirmMsg":"Are you sure you want to start now?",
+    "endConfirmTitle": "End Game?",
+    "endConfirmMsg": "Have you finished entering all scores?",
+    "publishConfirmTitle"  : "Publish Results?" ,
+    "publishConfirmMsg":"Are you sure you want to publish the results?",
     "assignstatus": {
       "success": "Volunteer assigned successfully",
       "error": "Failed to assign volunteer"
@@ -342,5 +357,9 @@
   "settings": {
     "notifications": "Notifications",
     "enabled": "Enabled"
+  },
+  "notifications": {
+    "sent": "Notifications Sent"
   }
+
 }

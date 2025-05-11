@@ -43,10 +43,10 @@ export const useEventsStore = create<EventsState>()(
     (set, get) => ({
       /* --- initial state --- */
       events: {},
-      games:  {},
+      games: {},
 
       currentEvent: null,
-      currentGame:  null,
+      currentGame: null,
 
       isLoading: false,
 
@@ -65,7 +65,7 @@ export const useEventsStore = create<EventsState>()(
         }
 
         const events: Record<string, Event> = {};
-        const games:  Record<string, Game>  = {};
+        const games: Record<string, Game> = {};
 
         data!.forEach((row) => {
           const evt = mapEvent(row);
@@ -97,7 +97,7 @@ export const useEventsStore = create<EventsState>()(
           const newGames = { ...state.games };
           (data.games ?? []).forEach((g: any) => {
             const gm = mapGame(g);
-            gm.eventId = evt.id;            
+            gm.eventId = evt.id;
             newGames[gm.id] = gm;
           });
 
@@ -126,26 +126,29 @@ export const useEventsStore = create<EventsState>()(
         }));
       },
 
-      registerForEvent: async (eventId: string, userId: string): Promise<boolean> => {
-        const userRole = useAuthStore.getState().currentUserRole(); 
+      registerForEvent: async (
+        eventId: string,
+        userId: string
+      ): Promise<boolean> => {
+        const userRole = useAuthStore.getState().currentUserRole();
         let result;
-         // prevent duplicate registration by checking first
+        // prevent duplicate registration by checking first
         const { data: existing, error } = await supabase
-        .from("event_game_registration")
-        .select("id")
-        .eq("event_id", eventId)
-        .eq("user_id", userId)
-        .limit(1);
-    
-      if (error) {
-        console.error("Check failed:", error);
-        return false;
-      }
-    
-      if (existing && existing.length > 0) {
-        console.warn("Already registered.");
-        return true;
-      }      
+          .from("event_game_registration")
+          .select("id")
+          .eq("event_id", eventId)
+          .eq("user_id", userId)
+          .limit(1);
+
+        if (error) {
+          console.error("Check failed:", error);
+          return false;
+        }
+
+        if (existing && existing.length > 0) {
+          console.warn("Already registered.");
+          return true;
+        }
         if (userRole === "parent") {
           result = await supabase.rpc("register_parent_for_event", {
             p_event_id: eventId,
@@ -164,34 +167,39 @@ export const useEventsStore = create<EventsState>()(
               },
             ]);
 
-            result = { data: insertData, error: insertError };
+          result = { data: insertData, error: insertError };
         }
-      
+
         if (result.error) {
           console.error("Registration failed:", result.error);
           return false;
         }
-      
+
         await get().refreshEvent(eventId); // optional: refresh updated registration state
         return true;
       },
 
-      saveScore: async ({ gameId, divisionId, childId, score, position, medal }) => {
-        const { error } = await supabase
-          .from("game_scores")
-          .upsert(
-            {
-              event_id:    get().events[ gameId ], 
-              game_id:     gameId,
-              division_id: divisionId,
-              child_id:    childId,
-              score,
-              position,
-              medal,
-              updated_at:  new Date().toISOString(),
-            },
-            { onConflict: "game_id,division_id,child_id" }
-          );
+      saveScore: async ({
+        gameId,
+        divisionId,
+        childId,
+        score,
+        position,
+        medal,
+      }) => {
+        const { error } = await supabase.from("game_scores").upsert(
+          {
+            event_id: get().events[gameId],
+            game_id: gameId,
+            division_id: divisionId,
+            child_id: childId,
+            score,
+            position,
+            medal,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "game_id,division_id,child_id" }
+        );
         if (error) {
           console.error("Error saving score:", error);
           return false;
@@ -201,30 +209,43 @@ export const useEventsStore = create<EventsState>()(
         return true;
       },
 
-      isUserRegisteredForEvent: async (eventId: string, userId: string): Promise<boolean> => {
+      isUserRegisteredForEvent: async (
+        eventId: string,
+        userId: string
+      ): Promise<boolean> => {
         const { data, error } = await supabase
           .from("event_game_registration")
           .select("id")
           .eq("event_id", eventId)
           .eq("user_id", userId)
           .limit(1);
-      
+
         if (error) {
           console.error("Error checking event registration", error);
           return false;
         }
-      
+
         return data.length > 0;
       },
-      
-      assignVolunteerToGame : async (userId: string, gameId: string, eventId: string): Promise<boolean> => {
+
+      assignVolunteerToGame: async (
+        userId: string,
+        gameId: string,
+        eventId: string
+      ): Promise<boolean> => {
         const { data, error } = await supabase
           .from("game_volunteer_assignments")
           .upsert(
-            { volunteer_id: userId, game_id: gameId, event_id: eventId, assigned: true, assigned_at: new Date().toISOString() },
+            {
+              volunteer_id: userId,
+              game_id: gameId,
+              event_id: eventId,
+              assigned: true,
+              assigned_at: new Date().toISOString(),
+            },
             { onConflict: "game_id,volunteer_id" }
           );
-      
+
         if (error) {
           console.error("Error assigning volunteer:", error);
           return false;
@@ -232,20 +253,23 @@ export const useEventsStore = create<EventsState>()(
         return true;
       },
 
-      unassignVolunteerFromGame : async (userId: string, gameId: string): Promise<boolean> => {
+      unassignVolunteerFromGame: async (
+        userId: string,
+        gameId: string
+      ): Promise<boolean> => {
         const { data, error } = await supabase
           .from("game_volunteer_assignments")
           .update({ assigned: false, unassigned_at: new Date().toISOString() })
           .eq("game_id", gameId)
           .eq("volunteer_id", userId);
-      
+
         if (error) {
           console.error("Error unassigning volunteer:", error);
           return false;
         }
         return true;
       },
-      
+
       setCurrentEvent: (id) =>
         set((s) => ({ currentEvent: id ? s.events[id] ?? null : null })),
 
@@ -253,14 +277,13 @@ export const useEventsStore = create<EventsState>()(
         set((s) => ({ currentGame: id ? s.games[id] ?? null : null })),
     }),
 
-
     /* --- persist options --- */
     {
       name: "events-store",
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         events: state.events,
-        games:  state.games,
+        games: state.games,
       }),
     }
   )

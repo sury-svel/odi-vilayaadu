@@ -79,27 +79,27 @@ export default function ProfileScreen() {
     );
   };
   
-  const handleDeleteAccount = () => {
-    Alert.alert(
-      t("profile.delete.confirmTitle"),
-      t("profile.delete.confirmMessage"),
-      [
-        {
-          text: t("common.cancel"),
-          style: "cancel"
-        },
-        {
-          text: t("common.delete"),
-          style: "destructive",
-          onPress: async () => {
-            // Delete account logic would go here
-            await logout();
-            router.push("/");
-          }
-        }
-      ]
-    );
-  };
+  // const handleDeleteAccount = () => {
+  //   Alert.alert(
+  //     t("profile.delete.confirmTitle"),
+  //     t("profile.delete.confirmMessage"),
+  //     [
+  //       {
+  //         text: t("common.cancel"),
+  //         style: "cancel"
+  //       },
+  //       {
+  //         text: t("common.delete"),
+  //         style: "destructive",
+  //         onPress: async () => {
+  //           // Delete account logic would go here
+  //           await logout();
+  //           router.push("/");
+  //         }
+  //       }
+  //     ]
+  //   );
+  // };
   
   const handleEditProfile = () => {
     // Navigate to edit profile screen TBD
@@ -120,58 +120,50 @@ export default function ProfileScreen() {
               </View>
             )}
           </View>
-          
+
           <Text style={styles.userName}>{user?.name || user?.fullName}</Text>
           <Text style={styles.userRole}>{t(`roles.${user?.role}`)}</Text>
-          
-          <Button 
-            title={t("profile.editProfile")} 
+
+          <Button
+            title={t("profile.editProfile")}
             variant="outline"
             onPress={handleEditProfile}
             style={styles.editButton}
           />
         </View>
-        
+
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            {t("profile.personalInfo")}
-          </Text>
-          
+          <Text style={styles.sectionTitle}>{t("profile.personalInfo")}</Text>
+
           <View style={styles.infoItem}>
             <Mail size={20} color={colors.text.tertiary} />
             <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>
-                {t("profile.fields.email")}
-              </Text>
+              <Text style={styles.infoLabel}>{t("profile.fields.email")}</Text>
               <Text style={styles.infoValue}>{user?.email}</Text>
             </View>
           </View>
-          
+
           <View style={styles.infoItem}>
             <Phone size={20} color={colors.text.tertiary} />
             <View style={styles.infoContent}>
-              <Text style={styles.infoLabel}>
-                {t("profile.fields.phone")}
-              </Text>
+              <Text style={styles.infoLabel}>{t("profile.fields.phone")}</Text>
               <Text style={styles.infoValue}>{user?.phone || "-"}</Text>
             </View>
           </View>
-          
-          {authMode === "supabase" && (
+
+          {/* {authMode === "supabase" && (
             <View style={styles.authModeInfo}>
               <Shield size={16} color={colors.primary} />
               <Text style={styles.authModeText}>
                 {t("profile.cognitoAuthenticated")}
               </Text>
             </View>
-          )}
+          )} */}
         </View>
-        
+
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            {t("profile.preferences")}
-          </Text>
-          
+          <Text style={styles.sectionTitle}>{t("profile.preferences")}</Text>
+
           <View style={styles.preferenceItem}>
             <View style={styles.preferenceLeft}>
               <Globe size={20} color={colors.text.tertiary} />
@@ -181,7 +173,7 @@ export default function ProfileScreen() {
             </View>
             <LanguageToggle />
           </View>
-          
+
           <View style={styles.preferenceItem}>
             <View style={styles.preferenceLeft}>
               <Bell size={20} color={colors.text.tertiary} />
@@ -196,13 +188,11 @@ export default function ProfileScreen() {
               thumbColor={notifications ? colors.primary : "#f4f3f4"}
             />
           </View>
-          
+
           <View style={styles.preferenceItem}>
             <View style={styles.preferenceLeft}>
               <Moon size={20} color={colors.text.tertiary} />
-              <Text style={styles.preferenceLabel}>
-                {t("profile.theme")}
-              </Text>
+              <Text style={styles.preferenceLabel}>{t("profile.theme")}</Text>
             </View>
             <Switch
               value={darkMode}
@@ -212,14 +202,15 @@ export default function ProfileScreen() {
             />
           </View>
         </View>
-        
+
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            {t("profile.settings")}
-          </Text>
-          
+          <Text style={styles.sectionTitle}>{t("profile.settings")}</Text>
+
           {authMode === "supabase" && (
-            <TouchableOpacity style={styles.settingItem}>
+            <TouchableOpacity
+              style={styles.settingItem}
+              onPress={() => router.push("/profile/change-pwd")}
+            >
               <View style={styles.settingLeft}>
                 <Key size={20} color={colors.text.tertiary} />
                 <Text style={styles.settingLabel}>
@@ -229,21 +220,16 @@ export default function ProfileScreen() {
               <ChevronRight size={20} color={colors.text.tertiary} />
             </TouchableOpacity>
           )}
-          
-          <TouchableOpacity 
-            style={styles.settingItem}
-            onPress={handleLogout}
-          >
+
+          <TouchableOpacity style={styles.settingItem} onPress={handleLogout}>
             <View style={styles.settingLeft}>
               <LogOut size={20} color={colors.text.tertiary} />
-              <Text style={styles.settingLabel}>
-                {t("profile.logout")}
-              </Text>
+              <Text style={styles.settingLabel}>{t("profile.logout")}</Text>
             </View>
             <ChevronRight size={20} color={colors.text.tertiary} />
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          {/* <TouchableOpacity 
             style={styles.dangerItem}
             onPress={handleDeleteAccount}
           >
@@ -254,7 +240,7 @@ export default function ProfileScreen() {
               </Text>
             </View>
             <ChevronRight size={20} color={colors.error} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </SafeAreaView>

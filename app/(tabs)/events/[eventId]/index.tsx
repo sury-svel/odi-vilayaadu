@@ -221,12 +221,10 @@ export default function EventDetailsScreen() {
               <View style={styles.infoRow}>
                 <Users size={20} color={colors.text.tertiary} />
                 <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>
-                    {language === "ta" ? "பதிவு செய்தவர்கள்" : "Registered"}
-                  </Text>
+                  <Text style={styles.infoLabel}> {language === "ta" ? "பதிவு செய்தவர்கள்" : "Registered"}   </Text>
                   <Text style={styles.infoText}>
-                    {event.registeredParticipants?.length || 0}{" "}
-                    {language === "ta" ? "பேர்" : "people"}
+                    {event.registeredCount || 0}{" "}
+                    {language === "ta" ? "விளையாட்டு வீரர்கள்" : "players"}
                   </Text>
                 </View>
               </View>
@@ -234,9 +232,7 @@ export default function EventDetailsScreen() {
           </View>
 
           <View style={styles.descriptionSection}>
-            <Text style={styles.sectionTitle}>
-              {language === "ta" ? "விவரங்கள்" : "Description"}
-            </Text>
+            <Text style={styles.sectionTitle}> {language === "ta" ? "விவரங்கள்" : "Description"} </Text>
             <Text style={styles.descriptionText}>{description}</Text>
           </View>
 

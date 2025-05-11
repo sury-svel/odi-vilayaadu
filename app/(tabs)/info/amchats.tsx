@@ -47,7 +47,7 @@ export default function AmChaTSScreen() {
           <View style={styles.headerContent}>
             <Text style={styles.title}>AmChaTS</Text>
             <Text style={styles.subtitle}>
-              {language === "ta" ? "அமெரிக்க சென்னை தமிழ் சங்கம்" : "American Chennai Tamil Sangam"}
+              {language === "ta" ? "அமெரிக்க ஈகைத் தமிழ்ச் சமூகம்" : "American Charitable Tamil Society"}
             </Text>
           </View>
         </View>
@@ -58,12 +58,12 @@ export default function AmChaTSScreen() {
           </Text>
           <Text style={styles.sectionText}>
             {language === "ta" 
-              ? "AmChaTS (அமெரிக்க ஈகைத் தமிழ்ச் சமூகம்) என்பது அமெரிக்காவில் வாழும் தமிழ் மக்களுக்கான ஒரு இலாப நோக்கற்ற அமைப்பாகும். இது தமிழ் மொழி, கலாச்சாரம் மற்றும் பாரம்பரியத்தை பாதுகாப்பதற்கும் மேம்படுத்துவதற்கும் அர்ப்பணிக்கப்பட்டுள்ளது."
+              ? "AmChaTS (அமெரிக்க ஈகைத் தமிழ்ச் சமூகம்) என்பது அமெரிக்காவில் வாழும் தமிழ் மக்களுக்கான ஒரு இலாப நோக்கற்ற அமைப்பாகும். இது தமிழ் மொழி, பண்பாடு மற்றும் பாரம்பரியத்தை பாதுகாப்பதற்கும் மேம்படுத்துவதற்கும் அர்ப்பணிக்கப்பட்டுள்ளது."
               : "AmChaTS (American Charitable Tamil Society) is a non-profit organization for Tamil people living in the United States. It is dedicated to preserving and promoting Tamil language, culture, and heritage."}
           </Text>
           <Text style={styles.sectionText}>
             {language === "ta" 
-              ? "நாங்கள் கலாச்சார நிகழ்வுகள், மொழி வகுப்புகள், சமூக சேவை திட்டங்கள் மற்றும் பாரம்பரிய கொண்டாட்டங்களை ஏற்பாடு செய்கிறோம். எங்கள் குறிக்கோள் அமெரிக்காவில் வாழும் தமிழ் சமூகத்தை ஒன்றிணைப்பது மற்றும் எங்கள் அடுத்த தலைமுறையினருக்கு எங்கள் பாரம்பரியத்தை கடத்துவதாகும்."
+              ? "நாங்கள் பண்பாட்டு நிகழ்வுகள், மொழி வகுப்புகள், சமூக சேவை திட்டங்கள் மற்றும் பாரம்பரிய கொண்டாட்டங்களை ஏற்பாடு செய்கிறோம். எங்கள் குறிக்கோள் அமெரிக்காவில் வாழும் தமிழ் சமூகத்தை ஒன்றிணைப்பது மற்றும் எங்கள் அடுத்த தலைமுறையினருக்கு எங்கள் பாரம்பரியத்தை கடத்துவதாகும்."
               : "We organize cultural events, language classes, community service projects, and traditional celebrations. Our mission is to unite the Tamil community living in the United States and pass on our heritage to our next generation."}
           </Text>
         </View>
@@ -87,7 +87,7 @@ export default function AmChaTSScreen() {
             </View>
           </View>
           
-          <View style={styles.activityItem}>
+          {/* <View style={styles.activityItem}>
             <Calendar size={24} color={colors.primary} />
             <View style={styles.activityContent}>
               <Text style={styles.activityTitle}>
@@ -95,11 +95,11 @@ export default function AmChaTSScreen() {
               </Text>
               <Text style={styles.activityDescription}>
                 {language === "ta" 
-                  ? "தமிழ் புத்தாண்டு கொண்டாட்டங்கள் மற்றும் கலாச்சார நிகழ்ச்சிகள்" 
+                  ? "தமிழ் புத்தாண்டு கொண்டாட்டங்கள் மற்றும் பண்பாட்டு நிகழ்ச்சிகள்" 
                   : "Tamil New Year celebrations and cultural performances"}
               </Text>
             </View>
-          </View>
+          </View> */}
           
           <View style={styles.activityItem}>
             <Users size={24} color={colors.primary} />
@@ -136,7 +136,7 @@ export default function AmChaTSScreen() {
           </Text>
           <Text style={styles.sectionText}>
             {language === "ta" 
-              ? "உங்கள் நன்கொடை எங்கள் கலாச்சார நிகழ்வுகள், மொழி வகுப்புகள் மற்றும் சமூக முயற்சிகளை ஆதரிக்க உதவும். நாங்கள் ஒரு இலாப நோக்கற்ற அமைப்பு, மேலும் உங்கள் பங்களிப்புகள் வரி விலக்கு பெற்றவை."
+              ? "உங்கள் நன்கொடை எங்கள் பண்பாட்டு நிகழ்வுகள், மொழி வகுப்புகள் மற்றும் சமூக முயற்சிகளை ஆதரிக்க உதவும். நாங்கள் ஒரு இலாப நோக்கற்ற அமைப்பு, மேலும் உங்கள் பங்களிப்புகள் வரி விலக்கு பெற்றவை."
               : "Your donations help support our cultural events, language classes, and community initiatives. We are a non-profit organization, and your contributions are tax-deductible."}
           </Text>
           <Button 
@@ -179,7 +179,7 @@ export default function AmChaTSScreen() {
           </Text>
           <Text style={styles.joinText}>
             {language === "ta" 
-              ? "AmChaTS குடும்பத்தில் இணைந்து, தமிழ் கலாச்சாரத்தை பாதுகாக்கவும் கொண்டாடவும் உதவுங்கள்." 
+              ? "AmChaTS குடும்பத்தில் இணைந்து, தமிழ் பண்பாட்டைப் பாதுகாக்கவும் கொண்டாடவும் உதவுங்கள்." 
               : "Join the AmChaTS family and help preserve and celebrate Tamil culture."}
           </Text>
           <Button 
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+    resizeMode: "contain",
   },
   headerContent: {
     marginLeft: 16,

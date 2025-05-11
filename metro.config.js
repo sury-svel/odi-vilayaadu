@@ -21,7 +21,6 @@ module.exports = (() => {
     tls:         require.resolve('tls-browserify'),
     zlib:        require.resolve('browserify-zlib'),
     assert:      require.resolve('assert/'),
-    querystring: require.resolve('querystring/'),
     fs:          require.resolve('browserify-fs'),
     path:        require.resolve('path-browserify'),
   };

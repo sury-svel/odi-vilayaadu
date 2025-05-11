@@ -145,7 +145,10 @@ export const useAuthStore = create<AuthState>()(
           // 1. Sign up using Supabase Auth
           const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
             email,
-            password
+            password,
+            options: {
+              emailRedirectTo: 'https://forms.zohopublic.com/avvaiyarpadasalai/form/2025CTOdiVilayaduRegistration/formperma/_307_Ca7My96CKK2btVxhcglNikwQYutE5qZoRFSl5c'
+            }            
           });
 
      
@@ -189,7 +192,7 @@ export const useAuthStore = create<AuthState>()(
           // 3. Success message
           set({
             isLoading: false,
-            error: "Registration successful! Please check your email to verify your account."
+            error: "Registration successful! Please check and confirm the email and login!"
           });
           return true;
       
@@ -394,142 +397,3 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 );
-
-
-      // login: async (email, password) => {
-      //   set({ isLoading: true, error: null });
-        
-      //   try {
-      //     // In a real app, this would be an API call
-      //     // For demo purposes, we'll simulate a successful login
-          
-      //     // Simulate API delay
-      //     await new Promise(resolve => setTimeout(resolve, 1000));
-          
-      //     // Mock users for testing
-      //     const mockUsers = {
-      //       parent: {
-      //         id: "parent-1",
-      //         email: "parent@example.com",
-      //         fullName: "Parent User",
-      //         address: "123 Main St",
-      //         phone: "555-1234",
-      //         role: "parent",
-      //         agreedToSafety: true,
-      //         createdAt: new Date().toISOString(),
-      //         language: "en",
-      //         children: ["child-1", "child-2"]
-      //       } as ParentUser,
-      //       volunteer: {
-      //         id: "volunteer-1",
-      //         email: "volunteer@example.com",
-      //         fullName: "Volunteer User",
-      //         address: "456 Oak St",
-      //         phone: "555-5678",
-      //         role: "volunteer",
-      //         agreedToSafety: true,
-      //         createdAt: new Date().toISOString(),
-      //         language: "en",
-      //         age: 22,
-      //         gender: "female",
-      //         schoolOrCollege: "Tamil University",
-      //         assignedGames: ["pambaram", "kolli-gundu"]
-      //       } as VolunteerUser,
-      //       admin: {
-      //         id: "admin-1",
-      //         email: "admin@example.com",
-      //         fullName: "Admin User",
-      //         address: "789 Pine St",
-      //         phone: "555-9012",
-      //         role: "admin",
-      //         agreedToSafety: true,
-      //         createdAt: new Date().toISOString(),
-      //         language: "en",
-      //         permissions: ["manage_events", "manage_users", "manage_games"]
-      //       } as AdminUser
-      //     };
-          
-      //     // Check if email matches any of our mock users
-      //     let user: User | null = null;
-          
-      //     if (email === "parent@example.com" && password === "password") {
-      //       user = mockUsers.parent;
-      //     } else if (email === "volunteer@example.com" && password === "password") {
-      //       user = mockUsers.volunteer;
-      //     } else if (email === "admin@example.com" && password === "password") {
-      //       user = mockUsers.admin;
-      //     }
-          
-      //     if (user) {
-      //       set({ 
-      //         isAuthenticated: true, 
-      //         user, 
-      //         isLoading: false,
-      //         language: user.language || "en",
-      //         authMode: "demo"
-      //       });
-            
-      //       // Update i18n locale
-      //       i18n.locale = user.language || "en";
-            
-      //       return true;
-      //     } else {
-      //       set({ 
-      //         isLoading: false, 
-      //         error: "Invalid email or password" 
-      //       });
-      //       return false;
-      //     }
-      //   } catch (error) {
-      //     set({ 
-      //       isLoading: false, 
-      //       error: "An error occurred during login" 
-      //     });
-      //     return false;
-      //   }
-      // },
-
-       // register: async (userData, password) => {
-      //   set({ isLoading: true, error: null });
-        
-      //   try {
-      //     // In a real app, this would be an API call
-      //     // For demo purposes, we'll simulate a successful registration
-          
-      //     // Simulate API delay
-      //     await new Promise(resolve => setTimeout(resolve, 1000));
-          
-      //     // Create a new user
-      //     const newUser: User = {
-      //       id: `user-${Date.now()}`,
-      //       email: userData.email || "",
-      //       fullName: userData.fullName || "",
-      //       address: userData.address || "",
-      //       phone: userData.phone || "",
-      //       role: userData.role || "parent",
-      //       agreedToSafety: userData.agreedToSafety || false,
-      //       createdAt: new Date().toISOString(),
-      //       language: userData.language || "en"
-      //     };
-          
-      //     set({ 
-      //       isAuthenticated: true, 
-      //       user: newUser, 
-      //       isLoading: false,
-      //       language: newUser.language,
-      //       authMode: "demo"
-      //     });
-          
-      //     // Update i18n locale
-      //     i18n.locale = newUser.language;
-          
-      //     return true;
-      //   } catch (error) {
-      //     set({ 
-      //       isLoading: false, 
-      //       error: "An error occurred during registration" 
-      //     });
-      //     return false;
-      //   }
-      // },
-      

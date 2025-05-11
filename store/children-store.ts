@@ -5,6 +5,7 @@ import { Child } from "@/types/user";
 import { children as mockChildren } from "@/mocks/children";
 import { supabase } from "@/config/supabase";
 import { getCurrentUserId } from "@/utils/auth";
+import { Alert } from "react-native";
 
 interface ChildrenState {
   children: Child[];
@@ -30,20 +31,24 @@ function mapChildFromDB(child: any): Child {
     photoUrl: child.photo_url,
     tamilGrade: child.tamil_grade,
     tamilSchool: child.tamil_school,
+    medicalInfo: child.medical_info,
     registeredGames: [],
     results: [],
   };
 }
 
 function mapChildToDB(child: Partial<Child>) {
-  const { parentId, photoUrl, tamilGrade, tamilSchool, ...rest } = child;
-
+  const { name, parentId, age, gender, division, photoUrl, tamilGrade, tamilSchool,medicalInfo } = child;
   return {
-    ...rest,
+    name: name,
     parent_id: parentId,
+    age: age,
+    gender: gender,
+    division: division,
     photo_url: photoUrl,
     tamil_grade: tamilGrade,
     tamil_school: tamilSchool,
+    medical_info: medicalInfo,
   };
 }
 
@@ -142,88 +147,146 @@ export const useChildrenStore = create<ChildrenState>()(
         }
       },
 
-      addChild: async (childData) => {
+      addChild: async (
+        childData: Omit<Child, "id" | "scores" | "registeredGames">
+      ): Promise<boolean> => {
         set({ isLoading: true });
         try {
           const parentId = await getCurrentUserId();
-
+      
           if (!parentId) {
             console.warn("No parent logged in");
             set({ isLoading: false });
             return false;
           }
-
-          const { parentId: _, photoUrl, ...cleanChildData } = childData; // temp fix to remove the parentId and photoUrl TBD better approach
-
-          const insertPayload = mapChildToDB(childData);
-
-          console.log("🔍 Insert payload to Supabase:", insertPayload);
-
-          const { data: childRow, error } = await supabase
-            .from("children")
-            .insert(insertPayload)
-            .select()
-            .single();
-
-          if (error) throw error;
-
-          const newChild: Child = {
-            ...childRow,
-            registeredGames: [],
-            scores: [],
-          };
-
-          console.log(`⚡ Parent id ${parentId}. checking registration...`);
-
-          // Fetch if parent is already registered to any event
+      
+          // Early check: Is the parent already registered for an event?
           const { data: registrations, error: regError } = await supabase
             .from("event_game_registration")
             .select("event_id")
             .eq("user_id", parentId)
             .limit(1);
-
-          if (regError) {
-            if (regError.code === "PGRST116") {
-              // No rows — parent not registered yet
-            } else {
-              throw regError;
-            }
+      
+          if (regError && regError.code !== "PGRST116") {
+            throw regError;
           }
-
-          const firstRegistration = registrations?.[0];
-
-          if (firstRegistration) {
-            console.log(
-              `⚡ Parent registered to event ${firstRegistration.event_id}. Registering child...`
-            );
-
-            const rpcResult = await supabase.rpc("register_child_for_event", {
-              p_event_id: firstRegistration.event_id,
-              p_parent_id: parentId,
-              p_child_id: childRow.id,
-              p_division_name: childRow.division,
-            });
-
-            if (rpcResult.error) {
-              console.error(
-                "Error calling register_child_for_event:",
-                rpcResult.error
-              );
-            }
-          } else {
-            console.log(
-              "ℹ️ Parent not registered yet, skipping child game registration."
-            );
+      
+          if (registrations && registrations.length > 0) {
+            console.warn("Parent already registered for an event. Cannot add child.");
+            Alert.alert("Action Not Allowed", "Adding child is not allowed after registering for the event.");
+            set({ isLoading: false });
+            return false;
           }
-
+      
+          const insertPayload = mapChildToDB(childData);
+          console.log("🔍 Insert payload to Supabase:", insertPayload);
+      
+          const { data: childRow, error: insertError } = await supabase
+            .from("children")
+            .insert(insertPayload)
+            .select()
+            .single();
+      
+          if (insertError) throw insertError;
+      
+          const newChild: Child = {
+            ...childRow,
+            registeredGames: [],
+            scores: [],
+          };
+      
           set({ children: [...get().children, newChild], isLoading: false });
           return true;
         } catch (error) {
-          console.error("Error adding child:", error);
+          console.error("Error when adding child:", error);
           set({ isLoading: false });
           return false;
         }
       },
+      
+      
+      // addChild: async (childData) => {
+      //   set({ isLoading: true });
+      //   try {
+      //     const parentId = await getCurrentUserId();
+
+      //     if (!parentId) {
+      //       console.warn("No parent logged in");
+      //       set({ isLoading: false });
+      //       return false;
+      //     }
+
+      //     // const { parentId: _, photoUrl, ...cleanChildData } = childData; // temp fix to remove the parentId and photoUrl TBD better approach
+
+      //     const insertPayload = mapChildToDB(childData);
+
+      //     console.log("🔍 Insert payload to Supabase:", insertPayload);
+
+      //     const { data: childRow, error } = await supabase
+      //       .from("children")
+      //       .insert(insertPayload)
+      //       .select()
+      //       .single();
+
+      //     if (error) throw error;
+
+      //     const newChild: Child = {
+      //       ...childRow,
+      //       registeredGames: [],
+      //       scores: [],
+      //     };
+
+      //     console.log(`⚡ Parent id ${parentId}. checking registration...`);
+
+      //     // Fetch if parent is already registered to any event
+      //     const { data: registrations, error: regError } = await supabase
+      //       .from("event_game_registration")
+      //       .select("event_id")
+      //       .eq("user_id", parentId)
+      //       .limit(1);
+
+      //     if (regError) {
+      //       if (regError.code === "PGRST116") {
+      //         // No rows — parent not registered yet
+      //       } else {
+      //         throw regError;
+      //       }
+      //     }
+
+      //     const firstRegistration = registrations?.[0];
+
+      //     if (firstRegistration) {
+      //       console.log(
+      //         `⚡ Parent registered to event ${firstRegistration.event_id}. Registering child...`
+      //       );
+
+      //       const rpcResult = await supabase.rpc("register_child_for_event", {
+      //         p_event_id: firstRegistration.event_id,
+      //         p_parent_id: parentId,
+      //         p_child_id: childRow.id,
+      //         p_division_name: childRow.division,
+      //       });
+
+      //       if (rpcResult.error) {
+      //         console.error(
+      //           "Error calling register_child_for_event:",
+      //           rpcResult.error
+      //         );
+      //       }
+      //     } else {
+      //       console.log(
+      //         "ℹ️ Parent not registered yet, skipping child game registration."
+      //       );
+      //     }
+
+      //     set({ children: [...get().children, newChild], isLoading: false });
+      //     return true;
+      //   } catch (error) {
+      //     console.error("Error when adding child:", error);
+      //     set({ isLoading: false });
+      //     return false;
+      //   }
+      // },
 
       updateChild: async (childId, childData) => {
         set({ isLoading: true });

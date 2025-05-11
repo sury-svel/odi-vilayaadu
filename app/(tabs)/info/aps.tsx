@@ -120,7 +120,7 @@ export default function APSScreen() {
             <Calendar size={24} color={colors.primary} />
             <View style={styles.classContent}>
               <Text style={styles.classTitle}>
-                {language === "ta" ? "பண்டிகை கொண்டாட்டங்கள்" : "Festival Celebrations"}
+                {language === "ta" ? "பொங்கல் கொண்டாட்டங்கள்" : "Pongal Celebrations"}
               </Text>
               <Text style={styles.classDescription}>
                 {language === "ta" 
