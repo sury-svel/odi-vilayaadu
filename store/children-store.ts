@@ -63,7 +63,8 @@ export const useChildrenStore = create<ChildrenState>()(
 
         try {
           const parentId = await getCurrentUserId();
-
+          console.log("Inside fetchChilren...");
+          
           if (!parentId) {
             console.warn("No parent logged in");
             set({ children: [], isLoading: false });

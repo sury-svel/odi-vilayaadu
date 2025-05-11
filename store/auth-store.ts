@@ -339,6 +339,7 @@ export const useAuthStore = create<AuthState>()(
 
 
       fetchUser: async () => {
+        console.log("auth store -> Inside fetchUser...");
         try {
           const {
             data: { session },
@@ -346,7 +347,7 @@ export const useAuthStore = create<AuthState>()(
           } = await supabase.auth.getSession();
       
           if (sessionError || !session?.user) {
-            // console.log("No authenticated Supabase session found");
+             console.log("No authenticated Supabase session found");
             return;
           }
       

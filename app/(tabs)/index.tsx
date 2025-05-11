@@ -48,6 +48,9 @@ export default function HomeScreen() {
   const handleEventPress = (eventId: string) => {
     router.push(`/events/${eventId}`);
   };
+
+  // console.log("Is user authenticated? " + isAuthenticated);
+  // console.log("User role ? " + user?.role )
   
   return (
     <SafeAreaView style={styles.container}>

@@ -18,6 +18,7 @@ import { Button } from "@/components/Button";
 import { Mail, Lock, User } from "lucide-react-native";
 import { useTranslation } from "@/i18n";
 import { registerForPushNotificationsAsync } from '@/utils/notification';
+import { supabase } from "@/config/supabase";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -34,13 +35,15 @@ export default function LoginScreen() {
     if (!email || !password) {
       Alert.alert(
         t("login.error.loginFailedTitle"),
-        !email ? t("login.error.emailRequired") : t("login.error.passwordRequired")
+        !email
+          ? t("login.error.emailRequired")
+          : t("login.error.passwordRequired")
       );
       return;
     }
-    
+
     const success = await login(email, password);
-    
+
     if (!success) {
       if (error) {
         Alert.alert(t("login.error.loginFailedTitle"), error);
@@ -49,8 +52,29 @@ export default function LoginScreen() {
       return;
     }
 
-    // login succeeded → show our own modal
-    setShowNotifPrompt(true);
+    // 3. Fetch current user and their push_token
+    const user = useAuthStore.getState().user!;
+    const { data: profile, error: profileErr } = await supabase
+      .from("user_profiles")
+      .select("push_token")
+      .eq("id", user.id)
+      .single();
+
+    if (profileErr) {
+      console.error("Could not fetch user profile:", profileErr);
+      // fallback to prompting in case of error
+      setShowNotifPrompt(true);
+      return;
+    }
+
+    // 4. Conditionally prompt or skip
+    if (profile.push_token) {
+      // already have a token → just go home
+      router.push("/");
+    } else {
+      // no token yet → ask permission
+      setShowNotifPrompt(true);
+    }
   };
 
   const onNoThanks = () => {
@@ -80,6 +104,27 @@ export default function LoginScreen() {
     }
   };
 
+
+   const handleOtpLogin = async () => {
+     if (!email) {
+       return Alert.alert("Enter your email to receive a login link");
+     }
+       const { error } = await supabase.auth.signInWithOtp({
+         email,
+         options: {
+           emailRedirectTo: "odiVilayaadu://",
+         },
+       });
+
+     if (error) {
+       Alert.alert("Error sending magic link", error.message);
+     } else {
+       Alert.alert(
+         "Check your inbox",
+         "We’ve sent you a magic login link. Tap it to sign in!"
+       );
+     }
+   };
 
 
   const handleRegister = () => {
@@ -131,6 +176,13 @@ export default function LoginScreen() {
             isLoading={isLoading}
             style={styles.loginButton}
           />
+{/* 
+          <Button
+            title="Login with Magic Link"
+            onPress={handleOtpLogin}
+            style={{ marginTop: 16 }}
+          /> */}
+
           <Modal
             visible={showNotifPrompt}
             transparent
@@ -168,6 +220,19 @@ export default function LoginScreen() {
               {t("login.noAccount")}{" "}
               <Text style={styles.registerTextBold}>
                 {t("common.register")}
+              </Text>
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={handleOtpLogin}
+            style={styles.registerLink}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.registerText}>
+              {t("login.forgotPassword")}{" "}
+              <Text style={styles.registerTextBold}>
+                {t("login.useMagicLink")}
               </Text>
             </Text>
           </TouchableOpacity>

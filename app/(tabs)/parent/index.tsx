@@ -22,6 +22,9 @@ export default function ParentScreen() {
   const { children, fetchChildren } = useChildrenStore();
   const { t } = useTranslation();
   
+  // console.log("Parent Profile Page Is user authenticated? " + isAuthenticated);
+  // console.log("Parent Profile Page User role ? " + user?.role )
+
   React.useEffect(() => {
     if (isAuthenticated && user?.role === "parent") {
       fetchChildren();

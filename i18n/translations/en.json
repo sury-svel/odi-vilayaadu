@@ -62,6 +62,7 @@
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
     "forgotPassword": "Forgot Password?",
+    "useMagicLink": "Use email magic link",
     "noAccount": "Don't have an account?",
     "demoAccounts": "Demo Accounts",
     "demoPasswordNote": "Use 'password' for all demo accounts",

@@ -61,6 +61,7 @@
     "password": "கடவுச்சொல்",
     "passwordPlaceholder": "உங்கள் கடவுச்சொல்லை உள்ளிடவும்",
     "forgotPassword": "கடவுச்சொல் மறந்துவிட்டதா?",
+    "useMagicLink": "மின்னஞ்சலின் மந்திரத் தொடுப்பில் உள்நுழைய‌",
     "noAccount": "கணக்கு இல்லையா?",
     "demoAccounts": "டெமோ கணக்குகள்",
     "demoPasswordNote": "அனைத்து டெமோ கணக்குகளுக்கும் 'password' பயன்படுத்தவும்",
