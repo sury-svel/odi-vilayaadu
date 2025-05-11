@@ -35,3 +35,52 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 .vercel
+
+
+# React Native
+android/.gradle/
+android/app/build/
+ios/Pods/
+ios/build/
+ios/.DS_Store
+*.xcworkspace
+*.xcodeproj/project.xcworkspace/
+*.xcworkspace/xcshareddata/
+
+# Misc build artifacts
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+expo-debug.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Environment & credentials
+.env
+.env.*
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
+*.jks
+
+# EAS build caches
+build/
+.cache/
+
+# VSCode & JetBrains
+.vscode/
+.idea/
+
+# Metro & Babel
+babel.config.js
+metro.config.js
