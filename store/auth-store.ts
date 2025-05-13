@@ -207,6 +207,8 @@ export const useAuthStore = create<AuthState>()(
           console.error('No user in store. Cannot save push token.');
           return false;
         }
+
+        console.log('Save/Update push token.');
       
         const { error } = await supabase
           .from('user_profiles')

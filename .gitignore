@@ -80,3 +80,6 @@ build/
 # VSCode & JetBrains
 .vscode/
 .idea/
+
+credentials/
+App.tsx.bk

@@ -17,7 +17,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "org.amchats.odivilayaadu",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["odiVilayaadu"]
+          }
+        ]
       }
     },
     "android": {
@@ -26,7 +31,20 @@
         "backgroundColor": "#ffffff"
       },
       "package": "org.amchats.odivilayaadu",
-      "googleServicesFile": "./google-services.json"
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "odiVilayaadu",
+              "host": "*",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "googleServicesFile": "./credentials/google-services.json"
     },
     "plugins": [
       "expo-router",

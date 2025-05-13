@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
       .from("children")
       .select("parent_id")
       .in("id", childIds);
-    const parentIds = kids!.map(k => k.parent_id);
+    const parentIds = kids!.map((k) => k.parent_id);
 
     // 4 Fetch all non-null parent push tokens
     const { data: profiles, error: profErr } = await supabase
@@ -65,7 +65,6 @@ Deno.serve(async (req) => {
     const raw = lang === "ta" ? tpl.message_ta! : tpl.message_en!;
     const body = mustache.render(raw, { game, division, location });
 
-
     // 7 Build Expo Push messages
     const messages = tokens.map((token) => ({
       to: token,
@@ -77,14 +76,46 @@ Deno.serve(async (req) => {
     // 8 Send in batches of 100 to the Expo Push API
     for (let i = 0; i < messages.length; i += 100) {
       const chunk = messages.slice(i, i + 100);
-      await fetch("https://exp.host/--/api/v2/push/send", {
+      console.log("Sending chunk:", chunk);
+
+      // consistently name it `response`
+      const response = await fetch("https://exp.host/--/api/v2/push/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(chunk),
       });
+
+      // log non-2xx status bodies
+      if (!response.ok) {
+        const text = await response.text();
+        console.error(
+          `Expo Push API returned HTTP ${response.status}: ${text}`
+        );
+        continue;
+      }
+
+      // parse the JSON tickets
+      let tickets: any[];
+      try {
+        tickets = await response.json();
+      } catch (e) {
+        console.error("Failed to parse Expo tickets JSON:", e);
+        continue;
+      }
+
+      // log the tickets so you can inspect status/id/errors
+      console.log("Expo Push tickets response:", tickets);
+
+      // surface any per-ticket failures
+      for (let idx = 0; idx < tickets.length; idx++) {
+        const ticket = tickets[idx];
+        if (ticket.status !== "ok") {
+          console.error(`Ticket ${idx} failed:`, ticket);
+        }
+      }
     }
 
-    // 9 Respond with the number of notifications sent
+    // 9 Respond with the number of notifications attempted
     return new Response(JSON.stringify({ published: tokens.length }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
