@@ -51,7 +51,13 @@
     "confirmPassword": "கடவுச்சொல்லை உறுதிபடுத்துக",
     "passwordTooShort": "கடவுச்சொல்லுக்கு குறைந்தது 6 எழுத்துக்கள் தேவை.",
     "passwordsDoNotMatch": "கடவுச்சொற்கள் பொருந்தவில்லை.",
-    "passwordUpdated": "கடவுச்சொல் மாற்றப்பட்டது."
+    "passwordUpdated": "கடவுச்சொல் மாற்றப்பட்டது.",
+    "resetPassword": "கடவுச்சொல்லை மாற்றுக",
+    "forgotPassword": "கடவுச்சொல் மாற்றம்‌",
+    "passwordResetSuccess": "கடவுச்சொல் மாற்றப்பட்டது.",
+    "email": "உங்கள் மின்னஞ்சலை உள்ளிடவும்",
+    "sendCode": "கடவு எண் அனுப்புக‌‌",
+    "recoveryCode": "கடவு எண்"    
   },
   "login": {
     "title": "மீண்டும் வரவேற்கிறோம்",
@@ -61,7 +67,7 @@
     "password": "கடவுச்சொல்",
     "passwordPlaceholder": "உங்கள் கடவுச்சொல்லை உள்ளிடவும்",
     "forgotPassword": "கடவுச்சொல் மறந்துவிட்டதா?",
-    "useMagicLink": "மின்னஞ்சலின் மந்திரத் தொடுப்பில் உள்நுழைய‌",
+    "useRecoveryLink": "கடவுச்சொல்லை மாற்றுக‌‌",
     "noAccount": "கணக்கு இல்லையா?",
     "demoAccounts": "டெமோ கணக்குகள்",
     "demoPasswordNote": "அனைத்து டெமோ கணக்குகளுக்கும் 'password' பயன்படுத்தவும்",

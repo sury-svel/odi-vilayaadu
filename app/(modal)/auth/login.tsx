@@ -27,7 +27,6 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const [showNotifPrompt, setShowNotifPrompt] = useState(false);
   const [processingNotif, setProcessingNotif] = useState(false);
-  // const [useCognito, setUseCognito] = useState(false);
   const { t } = useTranslation(); // Use the custom hook to ensure re-renders
   
   const handleLogin = async () => {
@@ -105,26 +104,6 @@ export default function LoginScreen() {
   };
 
 
-   const handleOtpLogin = async () => {
-     if (!email) {
-       return Alert.alert("Enter your email to receive a login link");
-     }
-       const { error } = await supabase.auth.signInWithOtp({
-         email,
-         options: {
-           emailRedirectTo: "odiVilayaadu://",
-         },
-       });
-
-     if (error) {
-       Alert.alert("Error sending magic link", error.message);
-     } else {
-       Alert.alert(
-         "Check your inbox",
-         "We’ve sent you a magic login link. Tap it to sign in!"
-       );
-     }
-   };
 
 
   const handleRegister = () => {
@@ -159,16 +138,7 @@ export default function LoginScreen() {
             leftIcon={<Lock size={20} color={colors.text.secondary} />}
           />
 
-          {/* <TouchableOpacity 
-            onPress={() => setUseCognito(!useCognito)}
-            style={styles.cognitoToggle}
-            activeOpacity={0.7}
-          >
-            <View style={[styles.checkbox, useCognito && styles.checkboxChecked]}>
-              {useCognito && <Text style={styles.checkmark}>✓</Text>}
-            </View>
-            <Text style={styles.cognitoText}>Use email authentication</Text>
-          </TouchableOpacity> */}
+
 
           <Button
             title={t("auth.login")}
@@ -176,12 +146,7 @@ export default function LoginScreen() {
             isLoading={isLoading}
             style={styles.loginButton}
           />
-{/* 
-          <Button
-            title="Login with Magic Link"
-            onPress={handleOtpLogin}
-            style={{ marginTop: 16 }}
-          /> */}
+
 
           <Modal
             visible={showNotifPrompt}
@@ -225,17 +190,19 @@ export default function LoginScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={handleOtpLogin}
+            onPress={() => router.push("/auth/recovery")}  
             style={styles.registerLink}
             activeOpacity={0.7}
           >
             <Text style={styles.registerText}>
               {t("login.forgotPassword")}{" "}
               <Text style={styles.registerTextBold}>
-                {t("login.useMagicLink")}
+                {t("login.useRecoveryLink")}  
               </Text>
             </Text>
           </TouchableOpacity>
+
+
         </View>
       </ScrollView>
     </SafeAreaView>

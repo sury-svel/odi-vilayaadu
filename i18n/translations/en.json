@@ -52,7 +52,13 @@
     "confirmPassword": "Confirm Password",
     "passwordTooShort": "Password must be at least 6 characters long.",
     "passwordsDoNotMatch": "Passwords do not match.",
-    "passwordUpdated": "Your password has been updated successfully."
+    "passwordUpdated": "Your password has been updated successfully.",
+    "resetPassword": "Reset Password",
+    "forgotPassword": "Reset Password",
+    "email": "Enter your email to send code",
+    "sendCode": "Send Code",
+    "passwordResetSuccess": "Your password has been updated successfully.",
+    "recoveryCode": "Recovery Code"
   },
   "login": {
     "title": "Welcome Back",
@@ -62,7 +68,7 @@
     "password": "Password",
     "passwordPlaceholder": "Enter your password",
     "forgotPassword": "Forgot Password?",
-    "useMagicLink": "Use email magic link",
+    "useRecoveryLink": "Reset password",
     "noAccount": "Don't have an account?",
     "demoAccounts": "Demo Accounts",
     "demoPasswordNote": "Use 'password' for all demo accounts",

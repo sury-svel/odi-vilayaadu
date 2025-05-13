@@ -67,7 +67,7 @@ export default function ChangePasswordScreen() {
       <Button
         title={t("profile.changePassword")}
         onPress={handleChangePassword}
-        loading={loading}
+        isLoading={loading}
         style={styles.submitButton}
       />
     </View>
