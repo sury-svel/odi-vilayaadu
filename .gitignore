@@ -38,11 +38,8 @@ yarn-error.*
 
 
 # React Native
-android/.gradle/
-android/app/build/
-ios/Pods/
-ios/build/
-ios/.DS_Store
+android/
+ios/
 *.xcworkspace
 *.xcodeproj/project.xcworkspace/
 *.xcworkspace/xcshareddata/
