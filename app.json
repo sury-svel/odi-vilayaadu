@@ -1,26 +1,29 @@
 {
   "expo": {
     "name": "odi-vilayaadu",
-    "slug": "expo-app",
+    "slug": "odivilayaadu",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": ["odiVilayaadu"],
+    "icon": "./assets/images/logo1.png",
+    "scheme": "odivilayaadu",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/logo2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "org.amchats.odivilayaadu",
+      "buildNumber": "1.0.0",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleURLTypes": [
           {
-            "CFBundleURLSchemes": ["odiVilayaadu"]
+            "CFBundleURLSchemes": [
+              "odivilayaadu"
+            ]
           }
         ]
       }
@@ -41,7 +44,10 @@
               "pathPrefix": "/"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "googleServicesFile": "./credentials/google-services.json"
@@ -51,14 +57,17 @@
       "expo-font",
       "expo-localization",
       "expo-notifications",
-      ["expo-build-properties", {
-        "android": { 
-          "useNextNotificationsApi": true,
-           "compileSdkVersion": 35,
-           "targetSdkVersion": 35,
-          "minSdkVersion": 24
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "useNextNotificationsApi": true,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "minSdkVersion": 24
+          }
         }
-      }]
+      ]
     ],
     "experiments": {
       "typedRoutes": true
@@ -66,7 +75,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "fcfb2208-51f8-4004-9232-52ccb4eb262c"
+        "projectId": "6f38f7d7-68ab-4fc4-bb00-99b7dfdb27e0"
       }
     },
     "runtimeVersion": "1.0.0",
