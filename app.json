@@ -52,7 +52,12 @@
       "expo-localization",
       "expo-notifications",
       ["expo-build-properties", {
-        "android": { "useNextNotificationsApi": true }
+        "android": { 
+          "useNextNotificationsApi": true,
+           "compileSdkVersion": 35,
+           "targetSdkVersion": 35,
+          "minSdkVersion": 21
+        }
       }]
     ],
     "experiments": {

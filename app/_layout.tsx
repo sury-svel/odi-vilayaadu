@@ -14,6 +14,7 @@ import { supabase } from "@/config/supabase";
 import { useAuthStore } from "@/store/auth-store";
 import { useEventsStore } from "@/store/events-store";
 import { registerForPushNotificationsAsync } from "@/utils/notification";
+import messaging from '@react-native-firebase/messaging';
 
 export default function RootLayout(): ReactElement | null {
   const [fontsLoaded, fontError] = useFonts({ ...FontAwesome.font });
@@ -70,20 +71,6 @@ export default function RootLayout(): ReactElement | null {
       }
     })();
 
-    // // Deep linking listener
-    // const linkSub = Linking.addEventListener("url", ({ url }) => {
-    //   console.log("🔔 Deeplink received:", url);
-    //   const { queryParams } = Linking.parse(url);
-    //   if (queryParams?.type === "magiclink" && queryParams?.access_token) {
-    //     supabase.auth
-    //       .setSession({
-    //         access_token: String(queryParams.access_token),
-    //         refresh_token: String(queryParams.refresh_token),
-    //       })
-    //       .then(() => router.replace("/"))
-    //       .catch(console.error);
-    //   }
-    // });
 
     // Notification handler: always show alerts/banners
     Notifications.setNotificationHandler({
@@ -137,6 +124,26 @@ export default function RootLayout(): ReactElement | null {
     })();
   }, [fontsLoaded, user, registerPushToken]);
 
+  useEffect(() => {
+    // Request permission and get the FCM token
+    const getFCMToken = async () => {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        const token = await messaging().getToken();
+        console.log('✅ FCM Token:', token);
+        Alert.alert('FCM Token', token); // Optional popup for quick viewing
+      } else {
+        console.warn('🚫 Notification permission not granted');
+      }
+    };
+
+    getFCMToken();
+  }, []);
+
   // Don’t render anything until fonts are loaded
   if (!fontsLoaded) return null;
 
@@ -148,3 +155,4 @@ export default function RootLayout(): ReactElement | null {
     </ErrorBoundary>
   );
 }
+
