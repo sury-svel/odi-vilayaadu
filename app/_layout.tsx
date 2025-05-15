@@ -135,7 +135,7 @@ export default function RootLayout(): ReactElement | null {
       if (enabled) {
         const token = await messaging().getToken();
         console.log('✅ FCM Token:', token);
-        Alert.alert('FCM Token', token); // Optional popup for quick viewing
+        // Alert.alert('FCM Token', token); // Optional popup for quick viewing
       } else {
         console.warn('🚫 Notification permission not granted');
       }

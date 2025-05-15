@@ -24,6 +24,11 @@
             "CFBundleURLSchemes": [
               "odivilayaadu"
             ]
+          },
+          {
+            "CFBundleURLSchemes": [
+              "odivilayaadu"
+            ]
           }
         ]
       }
@@ -35,6 +40,20 @@
       },
       "package": "org.amchats.odivilayaadu",
       "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "odiVilayaadu",
+              "host": "*",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        },
         {
           "action": "VIEW",
           "data": [
@@ -80,7 +99,7 @@
     },
     "runtimeVersion": "1.0.0",
     "updates": {
-      "url": "https://u.expo.dev/fcfb2208-51f8-4004-9232-52ccb4eb262c"
+      "url": "https://u.expo.dev/6f38f7d7-68ab-4fc4-bb00-99b7dfdb27e0"
     },
     "owner": "suryans"
   }
